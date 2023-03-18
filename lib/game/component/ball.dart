@@ -41,7 +41,7 @@ class Ball extends CircleComponent with CollisionCallbacks {
   }
 
   @override
-  void onCollisionStart(  // メソッド追加
+  void onCollisionStart(
       Set<Vector2> intersectionPoints,
       PositionComponent other,
       ) {
@@ -56,7 +56,7 @@ class Ball extends CircleComponent with CollisionCallbacks {
     super.onCollisionStart(intersectionPoints, other);
   }
 
-  void updateBallTrajectory(  // メソッド追加
+  void updateBallTrajectory(
       Vector2 collisionPoint,
       Rect rect,
       ) {
