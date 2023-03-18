@@ -25,14 +25,14 @@ class Ball extends CircleComponent with CollisionCallbacks {
     return spawnAngle;
   }
 
-  @override
-  Future<void>? onLoad() async {
-    final hitbox = CircleHitbox(radius: radius);
+  //@override
+  //Future<void>? onLoad() async {
+  //  final hitbox = CircleHitbox(radius: radius);
 
-    await add(hitbox);
+  //  await add(hitbox);
 
-    return super.onLoad();
-  }
+  //  return super.onLoad();
+  //}
 
   @override
   void update(double dt) {
