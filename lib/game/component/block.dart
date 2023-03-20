@@ -8,7 +8,7 @@ import '../../constants/constants.dart';
 import 'ball.dart';
 
 class Block extends RectangleComponent with CollisionCallbacks {
-  Block({required this.blockSize})
+  Block({required this.blockSize, required this.onBlockRemove})
       : super(
     size: blockSize,
     paint: Paint()
@@ -16,6 +16,7 @@ class Block extends RectangleComponent with CollisionCallbacks {
   );
 
   final Vector2 blockSize;
+  final Future<void> Function() onBlockRemove;
 
   @override
   Future<void>? onLoad() async {
@@ -38,6 +39,12 @@ class Block extends RectangleComponent with CollisionCallbacks {
     }
 
     super.onCollisionStart(intersectionPoints, other);
+  }
+
+  @override
+  Future<void> onRemove() async {
+    await onBlockRemove();
+    super.onRemove();
   }
 
 }

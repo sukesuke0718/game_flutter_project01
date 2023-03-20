@@ -16,6 +16,8 @@ class BlockBreaker extends FlameGame
 
   int failedCount = kGameTryCount;
 
+  bool get isCleared => children.whereType<Block>().isEmpty;
+
   bool get isGameOver => failedCount == 0;
 
   @override
@@ -69,6 +71,7 @@ class BlockBreaker extends FlameGame
     List<Block>.generate(kBlocksColumnCount * kBlocksRowCount, (int index) {
       final block = Block(
         blockSize: Vector2(sizeX, sizeY),
+        onBlockRemove: onBlockRemove,
       );
 
       final indexX = index % kBlocksRowCount;
@@ -99,11 +102,22 @@ class BlockBreaker extends FlameGame
   }
 
   Future<void> onBallRemove() async {
-    failedCount--;
-    if (isGameOver) {
-      await addMyTextButton('Game Over!');
-    } else {
-      await addMyTextButton('Retry');
+    if (!isCleared) {
+      failedCount--;
+      if (isGameOver) {
+        await addMyTextButton('Game Over!');
+      } else {
+        await addMyTextButton('Retry');
+      }
+    }
+  }
+
+  Future<void> onBlockRemove() async {
+    if (isCleared) {
+      await addMyTextButton('Clear!');
+      children.whereType<Ball>().forEach((ball) {
+        ball.removeFromParent();
+      });
     }
   }
 
@@ -125,7 +139,7 @@ class BlockBreaker extends FlameGame
       button.removeFromParent();
     });
 
-    if (isGameOver) {
+    if (isCleared || isGameOver) {
       await resetBlocks();
       failedCount = kGameTryCount;
     }
