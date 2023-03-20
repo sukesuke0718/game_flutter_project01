@@ -9,7 +9,9 @@ import 'block.dart' as b;
 import 'paddle.dart';
 
 class Ball extends CircleComponent with CollisionCallbacks {
-  Ball() {
+  Ball({
+      required this.onBallRemove,
+    }) {
     radius = kBallRadius;
     paint = Paint()..color = kBallColor;
 
@@ -21,6 +23,8 @@ class Ball extends CircleComponent with CollisionCallbacks {
 
   bool isCollidedScreenHitboxX = false;
   bool isCollidedScreenHitboxY = false;
+
+  final Future<void> Function() onBallRemove;
 
   double get spawnAngle {
     final random = Random().nextDouble();
@@ -42,6 +46,12 @@ class Ball extends CircleComponent with CollisionCallbacks {
   void update(double dt) {
     position += velocity * dt;
     super.update(dt);
+  }
+
+  @override
+  Future<void> onRemove() async {
+    await onBallRemove();
+    super.onRemove();
   }
 
   @override

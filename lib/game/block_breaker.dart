@@ -13,6 +13,11 @@ import 'component/paddle.dart';
 
 class BlockBreaker extends FlameGame
     with HasCollisionDetection, HasDraggableComponents,HasTappableComponents {
+
+  int failedCount = kGameTryCount;
+
+  bool get isGameOver => failedCount == 0;
+
   @override
   Future<void>? onLoad() async {
     final paddle = Paddle(
@@ -34,7 +39,9 @@ class BlockBreaker extends FlameGame
   }
 
   Future<void> resetBall() async {
-    final ball = Ball();
+    final ball = Ball(
+      onBallRemove: onBallRemove,
+    );
 
     ball.position
       ..x = size.x / 2 - ball.size.x / 2
@@ -44,6 +51,10 @@ class BlockBreaker extends FlameGame
   }
 
   Future<void> resetBlocks() async {
+    children.whereType<Block>().forEach((block) {
+      block.removeFromParent();
+    });
+
     final sizeX = (size.x -
         kBlocksStartXPosition * 2 -
         kBlockPadding * (kBlocksRowCount - 1)) /
@@ -87,6 +98,15 @@ class BlockBreaker extends FlameGame
     await add(myTextButton);
   }
 
+  Future<void> onBallRemove() async {
+    failedCount--;
+    if (isGameOver) {
+      await addMyTextButton('Game Over!');
+    } else {
+      await addMyTextButton('Retry');
+    }
+  }
+
   void draggingPaddle(DragUpdateEvent event) {
     final paddle = children.whereType<Paddle>().first;
 
@@ -104,6 +124,12 @@ class BlockBreaker extends FlameGame
     children.whereType<MyTextButton>().forEach((button) {
       button.removeFromParent();
     });
+
+    if (isGameOver) {
+      await resetBlocks();
+      failedCount = kGameTryCount;
+    }
+
     await countdown();
     await resetBall();
   }
@@ -116,7 +142,8 @@ class BlockBreaker extends FlameGame
       myTextButton.size.x,
       myTextButton.size.y,
     );
-    final bgPaint = Paint()..color = kButtonColor;
+    final bgPaint = Paint()
+      ..color = isGameOver ? kGameOverButtonColor : kButtonColor;
     canvas.drawRect(rect, bgPaint);
   }
 
