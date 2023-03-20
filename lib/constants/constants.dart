@@ -11,7 +11,7 @@ const Color kPaddleColor = Colors.blue;
 
 //Ball Settings
 const double kBallRadius = 10;
-const double kBallSpeed = 500;
+const double kBallSpeed = 250;
 const double kBallStartYRatio = 1 / 2;
 const double kBallMinSpawnAngle = 45;
 const double kBallMaxSpawnAngle = 135;
