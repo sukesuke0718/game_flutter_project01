@@ -16,16 +16,16 @@ class Paddle extends RectangleComponent
 
   final void Function(DragUpdateEvent event) draggingPaddle;
 
-  //@override
-  //Future<void>? onLoad() {
-  //  final paddleHitbox = RectangleHitbox(
-  //    size: size,
-  //  );
+  @override
+  Future<void>? onLoad() async{
+    final paddleHitbox = RectangleHitbox(
+      size: size,
+    );
 
-  //  add(paddleHitbox);
+    add(paddleHitbox);
 
-  //  return super.onLoad();
-  //}
+    return;
+  }
 
   @override
   void onDragUpdate(DragUpdateEvent event) {

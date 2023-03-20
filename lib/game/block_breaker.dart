@@ -1,3 +1,4 @@
+import 'package:flame/collisions.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 
@@ -19,6 +20,7 @@ class BlockBreaker extends FlameGame
       ..position.y = size.y - paddleSize.y - kPaddleStartY;
 
     await addAll([
+      ScreenHitbox(),
       paddle,
     ]);
 
@@ -36,7 +38,7 @@ class BlockBreaker extends FlameGame
     await add(ball);
   }
 
-  Future<void> resetBlocks() async {  // メソッド追加
+  Future<void> resetBlocks() async {
     final sizeX = (size.x -
         kBlocksStartXPosition * 2 -
         kBlockPadding * (kBlocksRowCount - 1)) /
