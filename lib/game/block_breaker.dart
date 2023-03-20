@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flame/collisions.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 import '../constants/constants.dart';
 import 'component/ball.dart';
@@ -168,6 +169,8 @@ class BlockBreaker extends FlameGame
       countdownText.position
         ..x = size.x / 2 - countdownText.size.x / 2
         ..y = size.y / 2 - countdownText.size.y / 2;
+
+      //FlameAudio.play('maou_bgm_8bit28.mp3');
 
       await add(countdownText);
 
